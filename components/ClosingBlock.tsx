@@ -13,11 +13,11 @@ const ClosingBlock: React.FC = () => {
   };
 
   return (
-    <section className="w-full bg-[#0E0E11] py-40 md:py-64 font-monelos overflow-hidden relative flex flex-col items-center justify-center">
+    <section className="w-full bg-[#0E0E11] pt-32 pb-12 md:pt-52 md:pb-16 font-monelos overflow-hidden relative flex flex-col items-center justify-center">
       {/* Sutil detalhe de luz no fundo para profundidade premium */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(201,162,77,0.03)_0%,transparent_70%)] pointer-events-none"></div>
 
-      <div className="max-w-4xl mx-auto px-8 md:px-12 text-center relative z-10 flex-grow py-20">
+      <div className="max-w-4xl mx-auto px-8 md:px-12 text-center relative z-10">
         
         {/* Headline com forte destaque */}
         <h2 className="text-white text-5xl md:text-8xl font-bold mb-10 tracking-tighter leading-tight">
@@ -47,9 +47,9 @@ const ClosingBlock: React.FC = () => {
         </div>
       </div>
 
-      {/* Rodapé - Footer */}
-      <footer className="w-full px-8 pb-16 text-center relative z-10">
-        <p className="text-[#B3B3B3]/30 text-xs md:text-sm font-light tracking-wide">
+      {/* Rodapé - Ajustado para Inter, menor e mais transparente */}
+      <footer className="w-full px-8 mt-24 md:mt-40 text-center relative z-10 opacity-25">
+        <p className="text-[#B3B3B3] text-[9px] font-inter font-light tracking-widest">
           © <a href="https://wa.me/5583996254920" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-500">Prime Soluções</a> — Todos os direitos reservados.
         </p>
       </footer>
