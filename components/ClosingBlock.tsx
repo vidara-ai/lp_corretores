@@ -1,6 +1,8 @@
 import React from 'react';
 
 const ClosingBlock: React.FC = () => {
+  const LOGO_URL = "https://ufsyauqlbjdyfipckjxs.supabase.co/storage/v1/object/public/assets/primesolucoes.png";
+
   const handleCTA = () => {
     // Disparo de Eventos do Meta Pixel
     if (typeof (window as any).fbq === 'function') {
@@ -47,11 +49,28 @@ const ClosingBlock: React.FC = () => {
         </div>
       </div>
 
-      {/* Rodapé - Ajustado para Inter, menor e mais transparente */}
-      <footer className="w-full px-8 mt-24 md:mt-40 text-center relative z-10 opacity-25">
-        <p className="text-[#B3B3B3] text-[9px] font-inter font-light tracking-widest">
-          © <a href="https://wa.me/5583996254920" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-500">Prime Soluções</a> — Todos os direitos reservados.
-        </p>
+      {/* Rodapé - Com Logo e Texto */}
+      <footer className="w-full px-8 mt-24 md:mt-40 text-center relative z-10 flex flex-col items-center">
+        {/* Logo da Marca Interativo no Rodapé */}
+        <a 
+          href="https://wa.me/5583996254920" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="mb-10 block opacity-80 hover:opacity-100 transition-all duration-500 transform hover:scale-105"
+        >
+          <img 
+            src={LOGO_URL} 
+            alt="Prime Soluções Logo" 
+            className="h-14 w-auto object-contain"
+          />
+        </a>
+
+        {/* Texto de Direitos Autorais (Mantendo opacidade 25% conforme original) */}
+        <div className="opacity-25">
+          <p className="text-[#B3B3B3] text-[9px] font-inter font-light tracking-widest uppercase">
+            © <a href="https://wa.me/5583996254920" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors duration-500">Prime Soluções</a> — Todos os direitos reservados.
+          </p>
+        </div>
       </footer>
 
     </section>
