@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
+import Spline from '@splinetool/react-spline';
 
 const LandingHero: React.FC = () => {
-  const imageUrl = "https://urcrpzbxxomluvyxucvj.supabase.co/storage/v1/object/public/assets/hero-bgr.png";
+  // const imageUrl = "https://urcrpzbxxomluvyxucvj.supabase.co/storage/v1/object/public/assets/hero-bgr.png";
   const bgColor = "#0B0B0E";
 
   const [animationStarted, setAnimationStarted] = useState(false);
@@ -38,12 +39,13 @@ const LandingHero: React.FC = () => {
   return (
     <section className="relative flex flex-col md:flex-row min-h-screen w-full bg-[#0B0B0E] antialiased overflow-hidden font-monelos">
       
-      {/* 🖼️ CAMADA DA IMAGEM E GRADIENTE */}
-      <div className="relative w-full md:w-1/2 min-h-[55vh] md:min-h-screen overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0 bg-no-repeat bg-contain md:bg-cover bg-center md:bg-left transition-all duration-1000"
-          style={{ backgroundImage: `url('${imageUrl}')` }}
-        />
+      {/* 🖼️ CAMADA DO MODELO 3D SPLINE */}
+      <div className="relative w-full md:w-1/2 min-h-[55vh] md:min-h-screen overflow-hidden flex items-center justify-center">
+        <Suspense fallback={<div className="text-white/20">Carregando...</div>}>
+          <div className="w-full h-full scale-[1.0] md:scale-[1.3] lg:scale-[1.5] pointer-events-none">
+            <Spline scene="https://prod.spline.design/AzbVBTGYCvCJ-Scq/scene.splinecode" />
+          </div>
+        </Suspense>
         
         {/* Gradientes de Transição Suave */}
         <div className="absolute inset-0 z-10 block md:hidden" style={{ background: `linear-gradient(to bottom, transparent 0%, rgba(11,11,14,0.4) 60%, ${bgColor} 100%)` }} />
@@ -60,7 +62,7 @@ const LandingHero: React.FC = () => {
             igual a essa <span 
               className={`keyword-container ${animationStarted ? 'animating' : ''} ${isFading ? 'faded' : ''}`}
             >
-              águia
+              tecnologia
             </span> <br className="hidden sm:block" />
             no último pavimento.
           </h1>
