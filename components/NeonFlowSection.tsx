@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import NeonCard from './NeonCard';
 import { 
@@ -8,7 +8,9 @@ import {
   Rocket, 
   ShieldCheck, 
   PieChart, 
-  MessageCircleCode 
+  MessageCircleCode,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const sections = [
@@ -71,10 +73,29 @@ const sections = [
 ];
 
 const NeonFlowSection: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  
+  const [activeIndex, setActiveIndex] = useState(3); // Start with middle section
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % sections.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handleNext = () => setActiveIndex((prev) => (prev + 1) % sections.length);
+  const handlePrev = () => setActiveIndex((prev) => (prev - 1 + sections.length) % sections.length);
+
   return (
-    <section className="relative w-full py-24 bg-[#0B0B0E] overflow-hidden">
+    <section 
+      className="relative w-full py-24 bg-[#0B0B0E] overflow-hidden"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={() => setIsPaused(true)}
+    >
       {/* Animated Background Waves */}
       <div className="neon-bg-wave top-1/4 -left-1/4 opacity-30" />
       <div className="neon-bg-wave bottom-1/4 -right-1/4 opacity-20" style={{ animationDelay: '-5s', background: 'radial-gradient(ellipse at center, var(--neon-purple) 0%, transparent 70%)' }} />
@@ -93,23 +114,52 @@ const NeonFlowSection: React.FC = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="relative z-10 w-full overflow-hidden">
-        <motion.div 
-          className="flex gap-8 px-8 md:px-[10%] pb-12 overflow-x-auto no-scrollbar snap-x snap-mandatory"
-          drag="x"
-          dragConstraints={{ right: 0, left: -1500 }} // Dynamic constraint would be better but this is a start
-        >
-          {sections.map((section, index) => (
-            <div key={index} className="snap-center">
-              <NeonCard {...section} />
-            </div>
-          ))}
-        </motion.div>
+      <div className="relative z-10 w-full flex flex-col items-center">
+        <div className="relative w-full overflow-hidden flex justify-center items-center py-20 px-10">
+          <motion.div 
+            className="flex gap-8"
+            animate={{ x: `calc(50% - ${activeIndex * (320 + 32)}px - 160px)` }} // 320 card width + 32 gap
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          >
+            {sections.map((section, index) => (
+              <div key={index} onClick={() => setActiveIndex(index)} className="cursor-pointer">
+                <NeonCard {...section} isActive={index === activeIndex} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="flex gap-12 mt-12 items-center">
+          <button 
+            onClick={handlePrev}
+            className="text-white/40 hover:text-white transition-colors"
+          >
+            <ChevronLeft size={40} strokeWidth={1} />
+          </button>
+          
+          <div className="flex gap-3">
+            {sections.map((_, i) => (
+              <div 
+                key={i}
+                className={`h-1 duration-500 transition-all rounded-full ${i === activeIndex ? 'w-12 bg-amber-400' : 'w-4 bg-white/20'}`}
+              />
+            ))}
+          </div>
+
+          <button 
+            onClick={handleNext}
+            className="text-white/40 hover:text-white transition-colors"
+          >
+            <ChevronRight size={40} strokeWidth={1} />
+          </button>
+        </div>
       </div>
 
-      {/* Navigation Hint */}
-      <div className="text-center mt-8">
-        <span className="text-[10px] text-white/20 uppercase tracking-[0.5em]">Scroll or drag to explore</span>
+      <div className="text-center mt-12">
+        <span className="text-[10px] text-white/20 uppercase tracking-[0.5em]">
+          {isPaused ? "Focused" : "Auto-shuffling"} • Click a card to focus
+        </span>
       </div>
     </section>
   );

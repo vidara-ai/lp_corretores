@@ -52,12 +52,14 @@
   transition: opacity 0.5s;
 }
 
-.neon-border-container:hover::before {
+.neon-border-container:hover::before,
+.neon-border-container.active::before {
   opacity: 1;
 }
 
-.neon-border-container:hover {
-  transform: translateY(-10px) scale(1.02);
+.neon-border-container:hover,
+.neon-border-container.active {
+  transform: translateY(-10px);
   border-color: rgba(251, 191, 36, 0.3);
   box-shadow: 0 0 30px rgba(251, 191, 36, 0.15);
 }

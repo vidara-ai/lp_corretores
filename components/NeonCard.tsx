@@ -9,9 +9,10 @@ interface NeonCardProps {
   icon: LucideIcon;
   buttonLabel: string;
   targetId: string;
+  isActive?: boolean;
 }
 
-const NeonCard: React.FC<NeonCardProps> = ({ title, subtitle, description, icon: Icon, buttonLabel, targetId }) => {
+const NeonCard: React.FC<NeonCardProps> = ({ title, subtitle, description, icon: Icon, buttonLabel, targetId, isActive }) => {
   const scrollToSection = () => {
     const element = document.getElementById(targetId);
     if (element) {
@@ -21,8 +22,13 @@ const NeonCard: React.FC<NeonCardProps> = ({ title, subtitle, description, icon:
 
   return (
     <motion.div 
-      whileHover={{ y: -10 }}
-      className="neon-border-container min-w-[280px] sm:min-w-[320px] h-[450px] p-8 flex flex-col items-center justify-between text-center relative z-10"
+      animate={{ 
+        scale: isActive ? 1.1 : 0.9,
+        opacity: isActive ? 1 : 0.6,
+        filter: isActive ? 'blur(0px)' : 'blur(1px)'
+      }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      className={`neon-border-container min-w-[280px] sm:min-w-[320px] h-[450px] p-8 flex flex-col items-center justify-between text-center relative z-10 ${isActive ? 'active shadow-2xl' : ''}`}
     >
       <div className="flex flex-col items-center gap-6 mt-4">
         <div className="p-4 rounded-2xl bg-amber-400/10 text-amber-400">
